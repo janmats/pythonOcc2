@@ -1,3 +1,5 @@
+#lab1 Запуск OCC на пайтон
+
 from OCC.Display.SimpleGui import init_display
 from OCC.Core.BRepPrimAPI import BRepPrimAPI_MakeBox
 
