@@ -2,7 +2,6 @@
 
 
 from OCC.Core.BRepAlgoAPI import BRepAlgoAPI_Cut, BRepAlgoAPI_Fuse
-from OCC.Core.BRepFilletAPI import BRepFilletAPI_MakeChamfer
 from OCC.Core.BRepPrimAPI import BRepPrimAPI_MakeBox, BRepPrimAPI_MakeCylinder
 from OCC.Core.Graphic3d import Graphic3d_NameOfMaterial, Graphic3d_NOM_COPPER, Graphic3d_MaterialAspect
 from OCC.Core.gp import gp_Pnt, gp_Ax2, gp_Dir
@@ -41,7 +40,8 @@ cut3 = BRepAlgoAPI_Cut(fuse3, fuse4).Shape()
 
 
 #скос углов
-chamfer1 = BRepFilletAPI_MakeChamfer
+
+
 
 
 
