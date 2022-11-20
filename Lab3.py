@@ -22,8 +22,8 @@ def decimal_range(start, stop, increment):
 # points
 arraySize = 25
 points = TColgp_Array2OfPnt(0, arraySize-1, 0, arraySize-1)
-a = 3
-b = 3
+a = 5
+b = 5
 for i in range(0, arraySize):
     for j in range(0, arraySize):
         x = i - arraySize // 2
