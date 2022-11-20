@@ -10,6 +10,13 @@ from OCC.Display.SimpleGui import init_display
 
 display, start_display, add_menu, add_function_to_menu = init_display()
 
+axe1 = gp_Ax2(gp_Pnt(2.5, 2.5, 0), gp_Dir(0, 0, 1))
+box1 = BRepPrimAPI_MakeBox(50.0, 50.0, 50.0).Shape()
+box2 = BRepPrimAPI_MakeBox(axe1, 45.0, 45.0, 45.0).Shape()
+cut = BRepAlgoAPI_Cut(box1, box2).Shape()
+axe2 = gp_Ax2(gp_Pnt(25, 25, 50), gp_Dir(0, 0, 1))
+cylinder = BRepPrimAPI_MakeCylinder(axe2, 15, 50).Shape()
+fuse = BRepAlgoAPI_Fuse(cut, cylinder).Shape()
 
 
 
