@@ -6,6 +6,7 @@ from OCC.Core.BRepPrimAPI import BRepPrimAPI_MakeBox, BRepPrimAPI_MakeCylinder
 from OCC.Core.Graphic3d import Graphic3d_NameOfMaterial, Graphic3d_NOM_COPPER, Graphic3d_MaterialAspect
 from OCC.Core.gp import gp_Pnt, gp_Ax2, gp_Dir
 from OCC.Core.AIS import AIS_Shape, AIS_Shaded
+from OCC.Core.GC import GC_MakeArcOfCircle, GC_MakeSegment
 
 
 from OCC.Display.SimpleGui import init_display
@@ -40,6 +41,7 @@ cut3 = BRepAlgoAPI_Cut(fuse3, fuse4).Shape()
 
 
 #скос углов
+
 
 
 
