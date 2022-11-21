@@ -14,11 +14,6 @@ from OCC.Display.SimpleGui import init_display
 
 display, start_display, add_menu, add_function_to_menu = init_display()
 
-def decimal_range(start, stop, increment):
-    while start < stop:
-        yield start
-        start += increment
-
 # points
 arraySize = 25
 points = TColgp_Array2OfPnt(0, arraySize-1, 0, arraySize-1)
