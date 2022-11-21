@@ -2,6 +2,7 @@
 
 
 from OCC.Core.BRepAlgoAPI import BRepAlgoAPI_Cut, BRepAlgoAPI_Fuse
+from OCC.Core.BRepFilletAPI import BRepFilletAPI_MakeFillet
 from OCC.Core.BRepPrimAPI import BRepPrimAPI_MakeBox, BRepPrimAPI_MakeCylinder
 from OCC.Core.Graphic3d import Graphic3d_NameOfMaterial, Graphic3d_NOM_COPPER, Graphic3d_MaterialAspect
 from OCC.Core.gp import gp_Pnt, gp_Ax2, gp_Dir
@@ -10,14 +11,24 @@ from OCC.Core.GC import GC_MakeArcOfCircle, GC_MakeSegment
 
 
 from OCC.Display.SimpleGui import init_display
+from OCC.Extend.TopologyUtils import TopologyExplorer
 
 display, start_display, add_menu, add_function_to_menu = init_display()
 
 #Основное
 boxmain = BRepPrimAPI_MakeBox(140.0, 280.0, 30.0).Shape()
+rake = BRepFilletAPI_MakeFillet(boxmain)
+
+#rake
+expl = list(TopologyExplorer(boxmain).edges())
+rake.Add(30, 30, expl[4])
+rake.Build()
+evolved_box = rake.Shape()
+
 axe1 = gp_Ax2(gp_Pnt(110, 30, 0), gp_Dir(0, 0, 1))
 cylinder1 = BRepPrimAPI_MakeCylinder(axe1, 15, 30).Shape()
-cut1 = BRepAlgoAPI_Cut(boxmain, cylinder1).Shape()
+#cut1 = BRepAlgoAPI_Cut(boxmain, cylinder1).Shape()
+cut1 = BRepAlgoAPI_Cut(evolved_box, cylinder1).Shape()
 axe2 = gp_Ax2(gp_Pnt(110,30,30), gp_Dir(0, 0, 1))
 cylinder2 = BRepPrimAPI_MakeCylinder(axe2, 30, 45).Shape()
 cylinder3 = BRepPrimAPI_MakeCylinder(axe2, 15, 45).Shape()
