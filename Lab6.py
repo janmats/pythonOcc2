@@ -1,7 +1,7 @@
 #Построение конструктивных элементов
 
 
-from OCC.Core.BRepAlgoAPI import BRepAlgoAPI_Cut, BRepAlgoAPI_Fuse
+from OCC.Core.BRepAlgoAPI import BRepAlgoAPI_Cut, BRepAlgoAPI_Fuse, BRepAlgoAPI_Common
 from OCC.Core.BRepFilletAPI import BRepFilletAPI_MakeFillet, BRepFilletAPI_MakeChamfer
 from OCC.Core.BRepPrimAPI import BRepPrimAPI_MakeBox, BRepPrimAPI_MakeCylinder
 from OCC.Core.Graphic3d import Graphic3d_NameOfMaterial, Graphic3d_NOM_COPPER, Graphic3d_MaterialAspect
@@ -68,8 +68,10 @@ chamfer2.Build()
 evolved_box3 = chamfer2.Shape()
 cut5 = BRepAlgoAPI_Cut(evolved_box3, cylinder3).Shape()
 fuse3 = BRepAlgoAPI_Fuse(fuse2, cut5).Shape()
-axe8 = gp_Ax2(gp_Pnt(0, 50, 0), gp_Dir(0, 1, 0))
-fuse4 = BRepPrimAPI_MakeBox(axe8, 10.0, 60.0, 10.0).Shape()
+axe8 = gp_Ax2(gp_Pnt(-0.1, 50, 0), gp_Dir(0, 1, 0))
+fuse4 = BRepPrimAPI_MakeBox(axe8, 10.0, 0.01, 10.0).Shape()
+axe9 = gp_Ax2(gp_Pnt(60.1, 50, 0), gp_Dir(0, 1, 0))
+fuse5 = BRepPrimAPI_MakeBox(axe9, 10.0, 0.01, 10.0).Shape()
 
 rake2 = BRepFilletAPI_MakeFillet(fuse3)
 expl = list(TopologyExplorer(fuse3).edges())
@@ -86,9 +88,10 @@ rake2.Add(1, 1, expl[19])
 rake2.Build()
 evolved_Figura = rake2.Shape()
 
-fuse5 = BRepAlgoAPI_Fuse(evolved_Figura, fuse4).Shape()
+fuse6 = BRepAlgoAPI_Fuse(evolved_Figura, fuse4).Shape()
+fuse7 = BRepAlgoAPI_Fuse(fuse6, fuse5).Shape()
 
-aisShape = AIS_Shape(evolved_Figura)
+aisShape = AIS_Shape(fuse7)
 
 ais_context = display.GetContext()
 ais_context.Display(aisShape, True)
