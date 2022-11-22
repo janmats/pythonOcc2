@@ -18,7 +18,7 @@ display, start_display, add_menu, add_function_to_menu = init_display()
 #Основное
 boxmain = BRepPrimAPI_MakeBox(140.0, 280.0, 30.0).Shape()
 
-#rake
+#скругление Boxmain
 rake = BRepFilletAPI_MakeFillet(boxmain)
 expl = list(TopologyExplorer(boxmain).edges())
 rake.Add(30, 30, expl[4])
@@ -33,7 +33,7 @@ cut1 = BRepAlgoAPI_Cut(evolved_boxmain, cylinder1).Shape()
 axe2 = gp_Ax2(gp_Pnt(110,30,30), gp_Dir(0, 0, 1))
 cylinder2 = BRepPrimAPI_MakeCylinder(axe2, 30, 45).Shape()
 
-#chamfer cylinder2
+#Фаска Cylinder2
 chamfer3 = BRepFilletAPI_MakeChamfer(cylinder2)
 expl = list(TopologyExplorer(cylinder2).edges())
 cylinder2faces = list(TopologyExplorer(cylinder2).faces())
@@ -43,7 +43,7 @@ evolved_cylinder2 = chamfer3.Shape()
 
 cylinder3 = BRepPrimAPI_MakeCylinder(axe2, 17, 45).Shape()
 
-#rake_cylinder3
+#Скругление_cylinder3
 rake1 = BRepFilletAPI_MakeFillet(cylinder3)
 expl = list(TopologyExplorer(cylinder3).edges())
 rake1.Add(2, 0, expl[2])
@@ -57,7 +57,7 @@ fuse1 = BRepAlgoAPI_Fuse(cut1, cut2).Shape()
 #Стенки
 Box1 = BRepPrimAPI_MakeBox(30.0, 280.0, 100.0).Shape()
 
-#chamfer box1
+#Фаска box1
 chamfer1 = BRepFilletAPI_MakeChamfer(Box1)
 expl = list(TopologyExplorer(Box1).edges())
 box1faces = list(TopologyExplorer(Box1).faces())
@@ -67,7 +67,7 @@ evolved_box1 = chamfer1.Shape()
 
 Box2 = BRepPrimAPI_MakeBox(gp_Pnt(0, 250, 0), 140.0, 30, 100.0).Shape()
 
-#chamfer box1
+#Фаска box1
 chamfer2 = BRepFilletAPI_MakeChamfer(Box2)
 expl = list(TopologyExplorer(Box2).edges())
 box2faces = list(TopologyExplorer(Box2).faces())
@@ -85,14 +85,6 @@ axe3 = gp_Ax2(gp_Pnt(0, 150, 80), gp_Dir(1, 0, 0))
 cylinder4 = BRepPrimAPI_MakeCylinder(axe3, 25, 30).Shape()
 fuse4 = BRepAlgoAPI_Fuse(Box3, cylinder4).Shape()
 cut3 = BRepAlgoAPI_Cut(fuse3, fuse4).Shape()
-
-
-#скос углов
-
-
-
-
-
 
 
 aisShape = AIS_Shape(cut3)
