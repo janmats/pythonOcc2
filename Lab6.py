@@ -17,6 +17,8 @@ display, start_display, add_menu, add_function_to_menu = init_display()
 
 Boxmain = BRepPrimAPI_MakeBox(60.0, 60.0, 10.0).Shape()
 
+
+
 #скругление Boxmain
 rake1 = BRepFilletAPI_MakeFillet(Boxmain)
 expl = list(TopologyExplorer(Boxmain).edges())
@@ -66,6 +68,8 @@ chamfer2.Build()
 evolved_box3 = chamfer2.Shape()
 cut5 = BRepAlgoAPI_Cut(evolved_box3, cylinder3).Shape()
 fuse3 = BRepAlgoAPI_Fuse(fuse2, cut5).Shape()
+axe8 = gp_Ax2(gp_Pnt(0, 50, 0), gp_Dir(0, 1, 0))
+fuse4 = BRepPrimAPI_MakeBox(axe8, 10.0, 60.0, 10.0).Shape()
 
 rake2 = BRepFilletAPI_MakeFillet(fuse3)
 expl = list(TopologyExplorer(fuse3).edges())
@@ -74,11 +78,15 @@ rake2.Add(1, 1, expl[37])
 rake2.Add(1, 1, expl[38])
 rake2.Add(1, 1, expl[41])
 rake2.Add(1, 1, expl[59])
-rake2.Add(1, 1, expl[65])
+rake2.Add(1, 1, expl[23])
+rake2.Add(1, 1, expl[22])
+rake2.Add(1, 1, expl[21])
+rake2.Add(1, 1, expl[20])
+rake2.Add(1, 1, expl[19])
 rake2.Build()
 evolved_Figura = rake2.Shape()
 
-
+fuse5 = BRepAlgoAPI_Fuse(evolved_Figura, fuse4).Shape()
 
 aisShape = AIS_Shape(evolved_Figura)
 
