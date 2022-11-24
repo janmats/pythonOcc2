@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-import sys
-
-from OCC.Display.SimpleGui import init_display
 from OCC.Extend.DataExchange import STEPControl_Reader
 from OCC.Display.SimpleGui import *
 from tkinter import Tk
