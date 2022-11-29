@@ -2,6 +2,7 @@ from OCC.Extend.DataExchange import STEPControl_Reader
 from OCC.Display.SimpleGui import *
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
+from OCC.Extend.DataExchange import read_iges_file
 
 def open_stp (event=None):
     Tk().withdraw()
@@ -12,6 +13,14 @@ def open_stp (event=None):
     myshape = step_reader.Shape()
 
     display.DisplayShape(myshape, update=True)
+
+def open_IGES (event=None):
+    Tk().withdraw()
+    filename = askopenfilename()
+    myshape = read_iges_file(filename)
+
+    display.DisplayShape(myshape, update=True)
+
 
 def erase_all (event=None):
     display.EraseAll()
@@ -27,6 +36,7 @@ if __name__ == '__main__':
 
     add_menu ('menu')
     add_function_to_menu ('menu',open_stp)
+    add_function_to_menu('menu', open_IGES)
     add_function_to_menu ('menu',erase_all)
     add_function_to_menu ('menu',exit)
 
