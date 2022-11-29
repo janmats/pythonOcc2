@@ -5,17 +5,20 @@ from OCC.Core.BRepAlgoAPI import BRepAlgoAPI_Cut, BRepAlgoAPI_Fuse, BRepAlgoAPI_
 from OCC.Core.BRepFilletAPI import BRepFilletAPI_MakeFillet, BRepFilletAPI_MakeChamfer
 from OCC.Core.BRepPrimAPI import BRepPrimAPI_MakeBox, BRepPrimAPI_MakeCylinder
 from OCC.Core.Graphic3d import Graphic3d_NameOfMaterial, Graphic3d_NOM_COPPER, Graphic3d_MaterialAspect
+from OCC.Core.TopoDS import TopoDS_Shape
 from OCC.Core.gp import gp_Pnt, gp_Ax2, gp_Dir
 from OCC.Core.AIS import AIS_Shape, AIS_Shaded
 from OCC.Core.GC import GC_MakeArcOfCircle, GC_MakeSegment
-from OCC.Core.STEPControl import STEPControl_Writer, STEPControl_AsIs
+from OCC.Core.STEPControl import STEPControl_Writer, STEPControl_AsIs, STEPControl_Controller, STEPControl_StepModelType
 from OCC.Display.SimpleGui import init_display
 from OCC.Extend.TopologyUtils import TopologyExplorer
 from OCC.Core.Interface import Interface_Static_SetCVal
 from OCC.Core.IFSelect import IFSelect_RetDone
+from OCC.Extend.DataExchange import write_step_file, write_iges_file
+from tkinter.filedialog import asksaveasfilename
 
 
-def build_figura(event=None):
+def Build_Figura():
 
 
     Boxmain = BRepPrimAPI_MakeBox(60.0, 60.0, 10.0).Shape()
@@ -93,18 +96,18 @@ def build_figura(event=None):
 
     fuse6 = BRepAlgoAPI_Fuse(evolved_Figura, fuse4).Shape()
     fuse7 = BRepAlgoAPI_Fuse(fuse6, fuse5).Shape()
+    #write_step_file(fuse7, "figura.stp")
 
     aisShape = AIS_Shape(fuse7)
-
     ais_context = display.GetContext()
     ais_context.Display(aisShape, True)
-
-
 
     display.View_Iso()
     display.FitAll()
 
     return fuse7
+
+
 
 
 def erase_all (event=None):
@@ -113,31 +116,30 @@ def erase_all (event=None):
 def exit (event=None):
     sys.exit()
 
-def save_STP(figura):
-    step_writer = STEPControl_Writer()
-    dd = step_writer.WS().TransferWriter().FinderProcess()
-    print(dd)
-    Interface_Static_SetCVal("write.step.schema", "AP203")
+def save_STP():
 
-    # transfer shapes and write file
-    step_writer.Transfer(figura, STEPControl_AsIs)
-    status = step_writer.Write("figura.stp")
+    file_name = asksaveasfilename(defaultextension='.stp', filetypes=[("stp files", '*.stp')],
+                initialdir="/stp",
+                title="Choose filename")
+    write_step_file(Build_Figura(), file_name)
 
-    if status != IFSelect_RetDone:
-        raise AssertionError("load failed")
+def save_IGS():
+
+    file_name = asksaveasfilename(defaultextension='.igs', filetypes=[("igs files", '*.igs')],
+                initialdir="/IGES",
+                title="Choose filename")
+    write_iges_file(Build_Figura(), file_name)
 
 if __name__ == '__main__':
 
 
     display, start_display, add_menu, add_function_to_menu = init_display()
 
-    figura1 = build_figura
-
     add_menu ('menu')
-    add_function_to_menu ('menu',build_figura)
-    add_function_to_menu('menu', save_STP(figura1))
-    add_function_to_menu ('menu',erase_all)
-    add_function_to_menu ('menu',exit)
-
+    add_function_to_menu('menu', Build_Figura)
+    add_function_to_menu('menu', save_STP)
+    add_function_to_menu('menu', save_IGS)
+    add_function_to_menu('menu', erase_all)
+    add_function_to_menu('menu', exit)
 
     start_display()
