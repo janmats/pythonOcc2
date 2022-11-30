@@ -4,6 +4,7 @@ from tkinter import Tk
 from tkinter.filedialog import askopenfilename
 from OCC.Extend.DataExchange import read_iges_file
 
+
 def open_stp (event=None):
     Tk().withdraw()
     filename = askopenfilename()
