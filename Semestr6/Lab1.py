@@ -4,15 +4,16 @@ from OCC.Core.gp import gp_Pnt
 from OCC.Core.BRepBuilderAPI import BRepBuilderAPI_MakeVertex, BRepBuilderAPI_MakePolygon, BRepBuilderAPI_MakeFace
 from OCC.Core.BRepAlgoAPI import BRepAlgoAPI_Common, BRepAlgoAPI_Section
 
+
 from OCC.Display.SimpleGui import init_display
 from OCC.Extend.TopologyUtils import TopologyExplorer
 
 display, start_display, add_menu, add_function_to_menu = init_display()
 
 #Задаем точки
-point1 = gp_Pnt(-1, 0, 0.5)
-point2 = gp_Pnt(1, 0, 0.5)
-point3 = gp_Pnt(0, 1, 0)
+point1 = gp_Pnt(0, 0, 10)
+point2 = gp_Pnt(10, 0, 0)
+point3 = gp_Pnt(0, 0, 0)
 
 #Строим вертексы
 v1 = BRepBuilderAPI_MakeVertex(point1).Vertex()
@@ -29,9 +30,9 @@ ais_shp1.SetWidth(1)
 ais_shp1.SetColor(Quantity_Color(Quantity_NameOfColor.Quantity_NOC_BLUE))
 
 #Задаем точки
-point4 = gp_Pnt(0, 0, 1)
-point5 = gp_Pnt(0, 1, 0)
-point6 = gp_Pnt(1, 0, 0)
+point4 = gp_Pnt(0, 7, 1)
+point5 = gp_Pnt(15, -5, 0)
+point6 = gp_Pnt(5, 0, 10)
 
 #Строим вертексы
 v4 = BRepBuilderAPI_MakeVertex(point4).Vertex()
@@ -57,7 +58,7 @@ ais_shp3 = AIS_Shape(section.Shape())
 ais_shp3.SetWidth(5)
 ais_shp3.SetColor(Quantity_Color(Quantity_NameOfColor.Quantity_NOC_RED))
 
-#display
+#дисплей
 ais_context = display.GetContext()
 ais_context.Display(ais_shp1, True)
 ais_context.Display(ais_shp2, True)
